@@ -1,0 +1,42 @@
+
+
+Hi dear Abdul. According to your request we made a bagisto-compatible version of this package.
+ You must do the following:
+1- install the package and follow the installation instructions
+2- copy the code from github at branch bagisto-compatible : https://github.com/vhessam/laravel-blog-package
+3- copy the following routes above the routes in: /bagisto-installtion/packages/Webkul/API/Http/routes.php :
+
+
+
+Route::group([‘prefix’ => “/{locale}/”.config(‘hessamcms.blog_prefix’, ‘blog’)], function () {
+
+Route::get(‘/blog’, ‘\HessamCMS\Controllers\HessamReaderController@index’)
+->name(‘hessamcms.index’);
+
+Route::get(‘/search’, ‘\HessamCMS\Controllers\HessamReaderController@search’)
+->name(‘hessamcms.search’);
+
+Route::get(‘/feed’, ‘\HessamCMS\Controllers\HessamRssFeedController@feed’)
+->name(‘hessamcms.feed’); //RSS feed
+
+Route::get(‘/category{subcategories}’, ‘\HessamCMS\Controllers\HessamReaderController@view_category’)->where(‘subcategories’, ‘^[a-zA-Z0-9-_\/]+$’)->name(‘hessamcms.view_category’);
+
+// Route::get(‘/category/{categorySlug}’,
+// ‘HessamReaderController@view_category’)
+// ->name(‘hessamcms.view_category’);
+
+Route::get(‘/{blogPostSlug}’,
+‘\HessamCMS\Controllers\HessamReaderController@viewSinglePost’)
+->name(‘hessamcms.single’);
+
+// throttle to a max of 10 attempts in 3 minutes:
+Route::group([‘middleware’ => ‘throttle:10,3’], function () {
+
+Route::post(‘save_comment/{blogPostSlug}’,
+‘\HessamCMS\Controllers\HessamCommentWriterController@addNewComment’)
+->name(‘hessamcms.comments.add_new_comment’);
+});
+});
+
+4- add the canManageHessamCMSPosts() to admin model at: /bagisto-installtion/packages/Webkul/User/Admin.php
+5- create your layouts.app view file to render your views.

@@ -1,0 +1,29 @@
+Route::view('/welcome', 'welcome');
+
+
+composer create-project bagisto/bagisto
+composer require encore/laravel-admin
+composer require encore/laravel-admin:1.*
+
+
+php artisan vendor:publish --provider="Encore\Admin\AdminServiceProvider"
+php artisan admin:install
+php artisan optimize:clear
+
+composer create-project bagisto/bagisto
+php artisan bagisto:install
+php artisan bagisto:generate product 100
+php artisan optimize:clear
+npm install
+
+php artisan db:seed
+
+composer require bagisto/laravel-datafaker
+php artisan db:seed --class="Webkul\DataFaker\Database\Seeders\DatabaseSeeder"
+
+
+npm i
+npm run watch-poll
+php artisan view:clear
+php artisan route:cache
+php artisan config:cache

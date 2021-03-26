@@ -1,0 +1,72 @@
+
+// Variables
+@import 'variables';
+
+@import 'fontimport';
+
+// @import 'bootstrap';
+
+@import 'maintheme';
+
+
+
+.catalog-list .product{
+border: 4px solid #007236;
+margin: 0;
+width: 100%;
+display: block;
+float: left;
+border-left: none;
+border-bottom: none;
+}
+
+.aimeos .list-items{
+    text-align:left;
+}
+
+
+.list-items {
+    display: grid;
+    /*! float: left; */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    align-self: last baseline;
+    grid-gap: 0px;
+  }
+
+  body{
+      background-color: transparent;
+  }
+
+
+// ----
+// libsass (v3.5.4)
+// ----
+
+@mixin in-last-row($row-count: 1) {
+    &:nth-child(#{$row-count}n + 1):nth-last-child(-n + #{$row-count}),
+    &:nth-child(#{$row-count}n + 1):nth-last-child(-n + #{$row-count}) ~ & {
+      @content;
+    }
+  }
+  
+  .child {
+    margin-bottom: 20px;
+    
+    @media (max-width: 499px) {
+      @include in-last-row(2) {
+        margin-bottom: 0;
+      }
+    }
+    
+    @media (min-width: 500) and (max-width: 799px) {
+      @include in-last-row(4) {
+        margin-bottom: 0;
+      }
+    }
+    
+    @media (min-width: 800px) {
+      @include in-last-row(6) {
+        margin-bottom: 0;
+      }
+    }
+  }
